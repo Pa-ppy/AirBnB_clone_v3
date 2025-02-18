@@ -78,11 +78,38 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_all_no_class(self):
         """Test that all returns all rows when no class is passed"""
+        pass
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_new(self):
         """test that new adds an object to the database"""
+        pass
 
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_save(self):
         """Test that save properly saves objects to file.json"""
+        pass
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_get(self):
+        """Test that retrieves the object in a json file."""
+        new_state = State(name="California")
+        new_state.save()
+        state_id = new_state.__dict__.get("id")
+
+        state_obj = models.storage.get(State, state_id)
+        state_obj_id = state_obj.id
+
+        self.assertEqual(state_id, state_obj_id)
+
+    @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
+    def test_count(self):
+        """Tests the the objects are counted in the json file"""
+        len_of_all_objects = len(models.storage.all())
+        initial_count = models.storage.count()
+        self.assertEqual(len_of_all_objects, initial_count)
+
+        all_the_states = len(models.storage.new(State))
+        count_states = models.storage.count(State)
+
+        self.assertEqual(all_the_states, count_states)
